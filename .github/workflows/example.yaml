@@ -1,0 +1,43 @@
+name: Update PR Comment
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  update-comment:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: find existing comment
+        id: 1
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '### Automated Issue Report'
+      
+      - name: create or update comment
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            ### Automated Issue Report
+
+                Thanks for opening this issue!
+
+            **Issue:** #${{ github.event.issue.number }}
+            **Title:** ${{ github.event.issue.title }}
+            **Created by:** ${{ github.event.issue.user.login }}
+
+
+
+
+
+
