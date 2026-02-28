@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: find existing comment
-        id: 1
+        id: find_comment
         uses: peter-evans/find-comment@v3
         with:
           issue-number: ${{ github.event.issue.number }}
